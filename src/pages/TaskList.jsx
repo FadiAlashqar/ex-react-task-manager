@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../GlobalContext'
+import TaskRow from '../components/TaskRow'
 
 
 const TaskList = () => {
@@ -16,15 +17,18 @@ const TaskList = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <ul>
-                        {data.map((d) => {
-                            return <li key={d.id}>
-                                <h3><strong>Titolo : </strong>{d.title}</h3>
-                                <p><strong>Descrizione : </strong>{d.description}</p>
-                                <p><strong>Stato : </strong>{d.status}</p>
-                            </li>
-                        })}
-                    </ul>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Stato</th>
+                                <th>Data di Creazione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <TaskRow />
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
