@@ -7,7 +7,7 @@ const TaskList = () => {
 
     const { data, setdata } = useContext(GlobalContext)
 
-    console.log(data)
+
     return (
         <div className="container">
             <div className="row">
@@ -26,7 +26,9 @@ const TaskList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <TaskRow />
+                            {data.map((d) => {
+                                return <TaskRow key={d.id} task={d} />
+                            })}
                         </tbody>
                     </table>
                 </div>

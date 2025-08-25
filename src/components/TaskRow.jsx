@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../GlobalContext'
+import React, { useContext, useMemo } from 'react'
 
-const TaskRow = () => {
+const TaskRow = ({ task }) => {
 
-    const { data, setData } = useContext(GlobalContext)
 
     const status = [
         "To do",
@@ -14,17 +12,15 @@ const TaskRow = () => {
     return (
         <>
             {
-                data.map((d) => {
-                    return <tr key={d.id}>
-                        <td>{d.title}</td>
-                        <td className={d.status === "To do" ? "text-danger" : d.status === "Doing" ? "text-warning" : "text-success"}>{d.status}</td>
-                        <td>{d.createdAt}</td>
-                    </tr >
-
-                })
+                <tr>
+                    <td>{task.title}</td>
+                    <td className={task.status === "To do" ? "text-danger" : task.status === "Doing" ? "text-warning" : "text-success"}>{task.status}</td>
+                    <td>{task.createdAt}</td>
+                </tr >
             }
+
         </>
     )
 }
 
-export default TaskRow
+export default React.memo(TaskRow)
