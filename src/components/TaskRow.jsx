@@ -1,4 +1,5 @@
 import React, { useContext, useMemo } from 'react'
+import { NavLink } from 'react-router-dom'
 
 const TaskRow = ({ task }) => {
 
@@ -13,7 +14,7 @@ const TaskRow = ({ task }) => {
         <>
             {
                 <tr>
-                    <td>{task.title}</td>
+                    <td><NavLink to={`/task/${task.id}`}>{task.title}</NavLink></td>
                     <td className={task.status === "To do" ? "text-danger" : task.status === "Doing" ? "text-warning" : "text-success"}>{task.status}</td>
                     <td>{task.createdAt}</td>
                 </tr >
