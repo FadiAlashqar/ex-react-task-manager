@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 
@@ -18,7 +19,26 @@ function useTasks() {
         }
     }, [])
 
-    const addTask = () => { }
+    const addTask = ({ title, description, status }) => {
+        return axios
+            .post(`${url}/tasks`, {
+                title,
+                description,
+                status
+            })
+            .then((res) => {
+                if (res.data.success) {
+                    setdata((prev) => [...prev, res.data.task])
+                }
+                else {
+                    throw new Error(res.data.message)
+                }
+            })
+            .catch((err) => console.error(err.message))
+
+
+
+    }
     const removeTask = () => { }
     const updateTask = () => { }
 

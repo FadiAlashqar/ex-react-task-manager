@@ -1,7 +1,10 @@
 import React, { useContext, useRef, useState } from 'react'
 import { GlobalContext } from '../GlobalContext'
+import useTasks from '../hooks/useTasks'
 
 const AddTask = () => {
+
+    const { addTask, data } = useTasks()
 
     const [title, setTitle] = useState("")
 
@@ -25,13 +28,18 @@ const AddTask = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(
-            `
-         titolo : ${title}
-         desrizione : ${textAreaRef.current.value}
-         stato : ${selectRef.current.value}
-         `
-        )
+
+        try {
+            addTask({ title, description: textAreaRef.current.value, status: selectRef.current.value })
+            setTitle("")
+            textAreaRef.current.value = ""
+            selectRef.current.value = ""
+            alert('Task aggiunta con successo!')
+            console.log(data)
+        }
+        catch (err) {
+            alert(`Errore nel processo : ${err.message}`)
+        }
     }
 
     return (
