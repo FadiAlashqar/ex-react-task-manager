@@ -39,7 +39,20 @@ function useTasks() {
 
 
     }
-    const removeTask = () => { }
+    const removeTask = (taskId) => {
+        return axios
+            .delete(`${url}/tasks/${taskId}`)
+            .then((res) => {
+                if (res.data.success) {
+                    setdata((prev) => prev.filter((p) => p.id !== taskId)
+                    )
+                }
+                else {
+                    throw new Error(res.data.message)
+                }
+            })
+            .catch((err) => console.error(err.message))
+    }
     const updateTask = () => { }
 
     return { addTask, removeTask, updateTask, data, setdata }

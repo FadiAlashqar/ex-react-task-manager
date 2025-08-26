@@ -1,18 +1,29 @@
 import React, { useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { GlobalContext } from '../GlobalContext'
 
 const TaskDetail = () => {
 
-    const { data } = useContext(GlobalContext)
+    const { data, removeTask } = useContext(GlobalContext)
     const { id } = useParams()
 
     const selectedTask = data.find((d) => {
         return d.id === Number(id)
     })
 
+    const navigate = useNavigate()
+
     const handleClick = () => {
-        console.log('Task eliminata')
+        try {
+            removeTask(Number(id))
+                .then(() => {
+                    alert(`Task eliminata !`)
+                    navigate('/TaskList')
+                })
+        }
+        catch (err) {
+            alert(err.message)
+        }
     }
 
 
@@ -20,7 +31,7 @@ const TaskDetail = () => {
         <div className="container">
             <div className="row">
                 <div className="col-12">
-                    {<div className="card">
+                    {selectedTask && <div className="card">
                         <div className="card-header">
                             {selectedTask.title}
                         </div>
