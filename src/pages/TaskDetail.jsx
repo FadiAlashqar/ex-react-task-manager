@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { GlobalContext } from '../GlobalContext'
+import Modal from '../components/Modal'
 
 const TaskDetail = () => {
 
     const { data, removeTask } = useContext(GlobalContext)
     const { id } = useParams()
+    const [show, setShow] = useState(false)
 
     const selectedTask = data.find((d) => {
         return d.id === Number(id)
@@ -15,11 +17,8 @@ const TaskDetail = () => {
 
     const handleClick = () => {
         try {
-            removeTask(Number(id))
-                .then(() => {
-                    alert(`Task eliminata !`)
-                    navigate('/TaskList')
-                })
+            setShow(true)
+            console.log(selectedTask)
         }
         catch (err) {
             alert(err.message)
@@ -41,7 +40,20 @@ const TaskDetail = () => {
                             <li className="list-group-item"><strong>Data creazione : </strong>{selectedTask.createdAt}</li>
                         </ul>
                     </div>}
-                    <button onClick={() => handleClick()}>Elimina task</button>
+                    <button onClick={() => handleClick()}>Delete Task</button>
+                    {selectedTask && < Modal
+                        title={selectedTask.title}
+                        content={selectedTask.description}
+                        show={show}
+                        onClose={() => setShow(false)}
+                        onConfirm={() => {
+                            return removeTask(Number(id))
+                                .then(() => {
+                                    alert(`Task eliminata !`)
+                                    navigate('/TaskList')
+                                })
+                        }}
+                    />}
                 </div>
             </div>
         </div>
