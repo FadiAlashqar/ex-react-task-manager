@@ -53,7 +53,18 @@ function useTasks() {
             })
             .catch((err) => console.error(err.message))
     }
-    const updateTask = () => { }
+    const updateTask = ({ updatedTask }) => {
+        return axios.put(`${url}/tasks/${updatedTask.id}`, updatedTask)
+            .then((res) => {
+                if (res.data.success) {
+                    setdata((prev) => prev.map((p) => p.id === updatedTask.id ? updatedTask : p))
+                }
+                else {
+                    throw new Error(res.data.message)
+                }
+            })
+            .catch((err) => console.error(err.message))
+    }
 
     return { addTask, removeTask, updateTask, data, setdata }
 }

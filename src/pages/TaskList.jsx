@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../GlobalContext'
 import TaskRow from '../components/TaskRow'
 
@@ -6,8 +6,31 @@ import TaskRow from '../components/TaskRow'
 const TaskList = () => {
 
     const { data, setdata } = useContext(GlobalContext)
+    const [sortBy, setSortBy] = useState("createdAt")
+    const [sortOrder, setSortOrder] = useState(1)
 
 
+    const handleSort = useMemo(() => {
+        const copy = [...data]
+        if (sortBy === "title") {
+            copy.sort((a, b) => {
+                return a.title.localeCompare(b.title) * sortOrder
+            })
+        }
+        else if (sortBy === "status") {
+            copy.sort((a, b) => {
+                return a.status.localeCompare(b.status) * sortOrder
+            })
+        }
+        else if (sortBy === "createdAt") {
+            copy.sort((a, b) => {
+                return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+            })
+        }
+
+
+        return copy
+    }, [sortBy, sortOrder])
 
     return (
         <div className="container">
@@ -21,13 +44,37 @@ const TaskList = () => {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>Stato</th>
-                                <th>Data di Creazione</th>
+                                <th onClick={() => {
+                                    if (sortBy !== "title") {
+                                        setSortBy("title");
+                                        setSortOrder(1)
+                                    }
+                                    else {
+                                        setSortOrder(-1)
+                                    }
+                                }}>Nome</th>
+                                <th onClick={() => {
+                                    if (sortBy !== "status") {
+                                        setSortBy("status");
+                                        setSortOrder(1)
+                                    }
+                                    else {
+                                        setSortOrder(-1)
+                                    }
+                                }}>Stato</th>
+                                <th onClick={() => {
+                                    if (sortBy !== "createdAt") {
+                                        setSortBy("createdAt");
+                                        setSortOrder(1)
+                                    }
+                                    else {
+                                        setSortOrder(-1)
+                                    }
+                                }}>Data di creazione</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((d) => {
+                            {handleSort.map((d) => {
                                 return <TaskRow key={d.id} task={d} />
                             })}
                         </tbody>

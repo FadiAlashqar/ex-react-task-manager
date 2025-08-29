@@ -1,7 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({ title, content, show = false, onClose = () => { }, onConfirm = () => { } }) => {
+const Modal = ({ title, content, show = false, onClose = () => { }, onConfirm = () => { } },) => {
     return <>
         {
             show && createPortal(

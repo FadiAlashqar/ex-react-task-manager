@@ -22,3 +22,7 @@
     translate: -50%;
     top: 25%;
 }
+
+.table th {
+    cursor: pointer;
+}
